@@ -1,20 +1,20 @@
 # Use official Node.js LTS image
 FROM node:18-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and install deps
+# Copy package and tsconfig first
 COPY package.json tsconfig.json ./
+
+# Install all dependencies (including devDeps for build)
 RUN npm install
 
-# Copy source and build
+# Copy and build source
 COPY src ./src
 RUN npm run build
 
-# Set environment and expose port
+# Set environment and expose desired port
 ENV PORT=80
 EXPOSE 80
 
-# Start the app
 CMD ["npm", "start"]
